@@ -44,6 +44,8 @@ def rename_img(imgpath): #Since ffmepg api can only deal with images with the na
             os.rename(src, dst)
             i = i + 1
 
+# Usually this part will find images in the current path directly
+# If images search failed, please add correct path to the argument
 def vedio_conv(path):
     os.system('ffmpeg -framerate 1/6 -i '+path+'/img%1d.jpg test.mp4')
 
