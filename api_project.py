@@ -43,7 +43,7 @@ def rename_img(imgpath): #Since ffmepg api can only deal with images with the na
             dst = os.path.join(os.path.abspath(imgpath), format('img' + str(i), '0>3s') + '.jpg')
             os.rename(src, dst)
             i = i + 1
-
+            
 def vedio_conv(path):
     os.system('ffmpeg -framerate 1/6 -i '+path+'/img%1d.jpg test.mp4')
 
@@ -70,7 +70,7 @@ def google_recognizer():
             for label in labels:
                 print(label.description)
             print('\n')
-    
+
 def main():
     download_img()
     path = os.getcwd()
