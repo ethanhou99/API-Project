@@ -15,25 +15,25 @@ access_token = "Your access token"
 access_token_secret = "Your access token secret"
 
 def download_img():
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)#This section is for the authentication
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
-    tweets = api.user_timeline(id = "IKEAUSA", page = 10)
+    tweets = api.user_timeline(id = "IKEAUSA", page = 10)#You can change the page# to decide how many images to download
     image_link = []
 
-    for tweet in tweets:
+    for tweet in tweets:#Twitter's media entities are in the extended entities, this loop is to find the img url
         media = tweet.entities.get('media', [])
         if(len(media) > 0):
             image_link.append(media[0]['media_url'])
 
     i = 1
-    for image in image_link:
+    for image in image_link:#Download images from twitter
         print("Downloading image %s" %i)
         wget.download(image)
         print('\n')
         i += 1
 
-def rename_img(imgpath):
+def rename_img(imgpath): #Since ffmepg api can only deal with images with the name of natural#, the img name needs to be changed
     img_list = os.listdir(imgpath)
     i = 0
     
