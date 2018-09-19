@@ -18,7 +18,10 @@ def download_img():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)#This section is for the authentication
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
-    tweets = api.user_timeline(id = "IKEAUSA", page = 10)#You can change the page# to decide how many images to download
+    
+    #You can change the page# to decide how many images to download
+    #You can also change the username
+    tweets = api.user_timeline(id = "IKEAUSA", page = 10)
     image_link = []
 
     for tweet in tweets:#Twitter's media entities are in the extended entities, this loop is to find the img url
