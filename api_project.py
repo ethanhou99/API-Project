@@ -46,12 +46,37 @@ def rename_img(imgpath): #Since ffmepg api can only deal with images with the na
 
 def vedio_conv(path):
     os.system('ffmpeg -framerate 1/6 -i '+path+'/img%1d.jpg test.mp4')
+
+def google_recognizer():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "Your json file's path"
+    client = vision.ImageAnnotatorClient()
+
+    img_list = os.listdir(os.getcwd())
+    for img in img_list:
+        if img.endswith('.jpg'):
+            img_path = os.path.join(os.path.abspath(os.getcwd()), img)
+            file_name = os.path.join(
+                os.path.dirname(__file__),img_path)
+                #'Your jpg file's path')
+
+            with io.open(file_name, 'rb') as image_file:
+                content = image_file.read()
+            image = types.Image(content=content)
+
+            response = client.label_detection(image=image)
+            labels = response.label_annotations
+
+            print(img + "'s Labels:")
+            for label in labels:
+                print(label.description)
+            print('\n')
     
 def main():
     download_img()
     path = os.getcwd()
     rename_img(path)
     vedio_conv(path)
-
+    google_recognizer(path)
+    
 if __name__ == '__main__':
     main()
