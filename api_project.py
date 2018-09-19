@@ -7,10 +7,10 @@ import wget
 import subprocess
 import os
 
-consumer_key = "3NaLT71Ac76C9JH6tf5YYKXJr"
-consumer_secret = "iHQeyLQMQBdROGTzWDtmPZAcIGbdAKCG44TnaJgFVwW8HXlZLr"
-access_token = "3895743257-Ai6TaeldDTIu22YA4w6m9lFne54aejVwoIdBqDh"
-access_token_secret = "5GOWjN7i2bOVKP1k56pC5NdBYnNkQcdlG231fOWcNzrNA"
+consumer_key = "Your consumer key"
+consumer_secret = "Your consumer secret"
+access_token = "Your access token"
+access_token_secret = "Your access token secret"
 
 def download_img():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -42,10 +42,35 @@ def rename_img(imgpath):
             os.rename(src, dst)
             i = i + 1
 
+def google_recognizer():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "Your json file's path"
+    client = vision.ImageAnnotatorClient()
+
+    img_list = os.listdir(os.getcwd())
+    for img in img_list:
+        if img.endswith('.jpg'):
+            img_path = os.path.join(os.path.abspath(os.getcwd()), img)
+            file_name = os.path.join(
+                os.path.dirname(__file__),img_path)
+                #'Your jpg file's path')
+
+            with io.open(file_name, 'rb') as image_file:
+                content = image_file.read()
+            image = types.Image(content=content)
+
+            response = client.label_detection(image=image)
+            labels = response.label_annotations
+
+            print(img + "'s Labels:")
+            for label in labels:
+                print(label.description)
+            print('\n')
+
 def main():
     download_img()
     path = os.getcwd()
     rename_img(path)
-
+    google_recognizer(path)
+    
 if __name__ == '__main__':
     main()
