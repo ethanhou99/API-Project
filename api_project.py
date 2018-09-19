@@ -44,10 +44,14 @@ def rename_img(imgpath): #Since ffmepg api can only deal with images with the na
             os.rename(src, dst)
             i = i + 1
 
+def vedio_conv(path):
+    os.system('ffmpeg -framerate 1/6 -i '+path+'/img%1d.jpg test.mp4')
+    
 def main():
     download_img()
     path = os.getcwd()
     rename_img(path)
+    vedio_conv(path)
 
 if __name__ == '__main__':
     main()
