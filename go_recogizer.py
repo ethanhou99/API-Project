@@ -5,7 +5,7 @@ import os
 from google.cloud import vision
 from google.cloud.vision import types
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "/Users/yicunhou/Desktop/api_proj/922004261583.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "Your credential's json path"
 # Instantiates a client
 client = vision.ImageAnnotatorClient()
 
@@ -17,7 +17,7 @@ for img in img_list:
         # The name of the image file to annotate
         file_name = os.path.join(
             os.path.dirname(__file__),img_path)
-            #'/Users/yicunhou/Desktop/api_proj/img11.jpg')
+            #'Your jpg file's path')
 
         # Loads the image into memory
         with io.open(file_name, 'rb') as image_file:
