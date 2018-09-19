@@ -7,10 +7,10 @@ import wget
 import subprocess
 import os
 
-consumer_key = "3NaLT71Ac76C9JH6tf5YYKXJr"
-consumer_secret = "iHQeyLQMQBdROGTzWDtmPZAcIGbdAKCG44TnaJgFVwW8HXlZLr"
-access_token = "3895743257-Ai6TaeldDTIu22YA4w6m9lFne54aejVwoIdBqDh"
-access_token_secret = "5GOWjN7i2bOVKP1k56pC5NdBYnNkQcdlG231fOWcNzrNA"
+consumer_key = "Your consumer key"
+consumer_secret = "Your consumer secret"
+access_token = "Your access token"
+access_token_secret = "Your access token secret"
 
 def download_img():
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
