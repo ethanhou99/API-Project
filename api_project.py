@@ -9,22 +9,35 @@ import os, io
 from google.cloud import vision
 from google.cloud.vision import types
 
+#Twitter authentication
 consumer_key = "Your consumer key"
 consumer_secret = "Your consumer secret"
 access_token = "Your access token"
 access_token_secret = "Your access token secret"
 
-def download_img():
+#Google authentication
+jsonpath = "Your Google authentication json file's path" #Example: "/Users/user/Desktop/api_proj/92200.json"
+imgpath = 'Your img path' #Example: '/Users/user/Desktop/api_proj/*.jpg'
+    
+def download_img(userid, pagenum):
+    # If the page number is too large the api will show warning msg and shut down
+    if (pagenum > 50):
+        print("Warning, the pagenum is too large!")
+        os._exit(0)       
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)#This section is for the authentication
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
     
-    #You can change the page# to decide how many images to download
-    #You can also change the username
-    tweets = api.user_timeline(id = "IKEAUSA", page = 10)
-    image_link = []
+    #If the Twitter isn't responding, the api will show warning msg and shut down
+    try:
+        tweets = api.user_timeline(id = userid, page = pagenum)
+        image_link = []
+    except:
+        print("Twitter is not responding, please check your network!")
+        os._exit(0)
 
-    for tweet in tweets:#Twitter's media entities are in the extended entities, this loop is to find the img url
+    #Twitter's media entities are in the extended entities, this loop is to find the img url
+    for tweet in tweets:
         media = tweet.entities.get('media', [])
         if(len(media) > 0):
             image_link.append(media[0]['media_url'])
@@ -35,8 +48,9 @@ def download_img():
         wget.download(image)
         print('\n')
         i += 1
-
-def rename_img(imgpath): #Since ffmepg api can only deal with images with the name of natural#, the img name needs to be changed
+        
+#Since ffmepg api can only deal with images with the name of natural#, the img name needs to be changed
+def rename_img(imgpath):
     img_list = os.listdir(imgpath)
     i = 0
     
@@ -52,8 +66,8 @@ def rename_img(imgpath): #Since ffmepg api can only deal with images with the na
 def vedio_conv(path):
     os.system('ffmpeg -framerate 1/6 -i '+path+'/img%1d.jpg test.mp4')
 
-def google_recognizer():
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= "Your json file's path"
+def google_recognizer(jsonpath, imgpath):
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= jsonpath
     client = vision.ImageAnnotatorClient()
 
     img_list = os.listdir(os.getcwd())
@@ -62,14 +76,18 @@ def google_recognizer():
             img_path = os.path.join(os.path.abspath(os.getcwd()), img)
             file_name = os.path.join(
                 os.path.dirname(__file__),img_path)
-                #'Your jpg file's path')
+                #'imgpath')
 
             with io.open(file_name, 'rb') as image_file:
                 content = image_file.read()
             image = types.Image(content=content)
-
-            response = client.label_detection(image=image)
-            labels = response.label_annotations
+            #If Google is not responding, the api will show warning msg and shut down
+            try:
+                response = client.label_detection(image=image)
+                labels = response.label_annotations
+            except:
+                print("Google is not responding, please check your network!")
+                os._exit(0)
 
             print(img + "'s Labels:")
             for label in labels:
@@ -77,11 +95,13 @@ def google_recognizer():
             print('\n')
     
 def main():
-    download_img()
+    #You can change the page# to decide how many images to download
+    #You can also change the username
+    download_img('IKEAUSA', 10)
     path = os.getcwd()
     rename_img(path)
     vedio_conv(path)
-    google_recognizer(path)
+    google_recognizer(jsonpath, imgpath)
     
 if __name__ == '__main__':
     main()
