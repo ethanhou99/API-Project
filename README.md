@@ -18,4 +18,11 @@ Branches
 This API contains three branches: master, ffmepg and googleapi. The final code is in the master branch and the rest branches
 are for the development.
 
+Result
+
+There are some result example under the folder of 'api_proj/photo-vedio/', like:
+![image](https://github.com/ethanhou99/api_proj/blob/master/photo-vedio/img8.jpg)
+
+![image](https://github.com/ethanhou99/api_proj/blob/master/photo-vedio/img9.jpg)
+
 If you have any questions please feel free to contact me.
