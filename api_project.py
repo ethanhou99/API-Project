@@ -114,11 +114,14 @@ def google_recognizer(jsonpath, imgpath):
 def main():
     #You can change the page# to decide how many images to download
     #You can also change the username
-    download_img('IKEAUSA', 10)
+    print("Please input the number of twitters you want to check:")
+    num = int(input())
+    download_img("IKEAUSA", num)
     path = os.getcwd()
     rename_img(path)
-    vedio_conv(path)
     google_recognizer(jsonpath, imgpath)
+    vedio_conv(path)
+    print("Api demo finished, thanks!")
     
 if __name__ == '__main__':
     main()
