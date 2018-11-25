@@ -20,6 +20,7 @@ are for the development.
 
 ### Database Branch
 On 11/24/2018 the Mysql database function is added to this API.
+On 11/25/2018 the MongoDB database function is added to this API.
 
 ## Result
 
