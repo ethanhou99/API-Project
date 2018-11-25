@@ -15,12 +15,12 @@ is typed in the function 'google_recognizer()'. You also need to enter the image
 
 ## Branches
 
-This API contains three branches: master, ffmepg and googleapi. The final code is in the master branch and the rest branches
-are for the development.
+* This API contains three branches: master, ffmepg and googleapi. 
+* The final code is in the master branch and the rest branches are for the development.
 
 ### Database Branch
-On 11/24/2018 the Mysql database function is added to this API.
-On 11/25/2018 the MongoDB database function is added to this API.
+* On 11/24/2018 the Mysql database function is added to this API.
+* On 11/25/2018 the MongoDB database function is added to this API.
 
 ## Result
 
