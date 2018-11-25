@@ -75,7 +75,6 @@ def google_recognizer(jsonpath, imgpath):
     img_list = os.listdir(os.getcwd())
     for img in img_list:
         if img.endswith('.jpg'):
-            ylb = 50
             img_path = os.path.join(os.path.abspath(os.getcwd()), img)
             file_name = os.path.join(
                 os.path.dirname(__file__),img_path)
@@ -93,36 +92,40 @@ def google_recognizer(jsonpath, imgpath):
                 os._exit(0)
 
             print(img + "'s Labels:")
-
             for label in labels:
-                image = Image.open(img)
-                # initialise the drawing context with
-                # the image object as background
-                draw = ImageDraw.Draw(image)
-                # create font object with the font file and specify
-                # desired size
-                font = ImageFont.truetype('GillSans.ttc', size=45)
-                # starting position of the message
-                (x, y) = (50, ylb)
-                message = label.description
-                color = 'rgb(250, 250, 250)' # white color
-                # draw the message on the background
-                draw.text((x, y), message, fill=color, font=font)
-                ylb = ylb + 50
-                image.save(img)
-                print(label.description)     
+                objects = objects+label.description+"\n"
+                print(label.description)
             print('\n')
-    
+
+def database(name, twid, pagenum, imgpath, objects):
+    con = pymysql.connect(host='localhost', user='root',
+                      passwd='12345678', database='userinfo', charset='utf8')
+    print('Connected to database')
+    cur = con.cursor()
+    sql = "INSERT INTO information (USERNAME, TWITTER_ID, PAGE_NUMBER, IMG_PATH, DESCRIPTOR) VALUES (%s, %s, %s, %s, %s)"
+    val = (name, twid, pagenum, imgpath, objects)
+    cur.execute(sql, val)
+    con.commit()
+    cur.close()
+    print('Backup finished')
+    con.close()
+
 def main():
+
     #You can change the page# to decide how many images to download
     #You can also change the username
+    print("Please input your username:")
+    name = input()
+    print("Please input the Twitter ID you want to check:")
+    twid = input()
     print("Please input the number of twitters you want to check:")
     num = int(input())
-    download_img("IKEAUSA", num)
+    download_img(twid, num)
     path = os.getcwd()
     rename_img(path)
     google_recognizer(jsonpath, imgpath)
     vedio_conv(path)
+    database(name, twid, num, imgpath, objects)
     print("Api demo finished, thanks!")
     
 if __name__ == '__main__':
