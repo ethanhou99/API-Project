@@ -9,7 +9,6 @@ import os, io
 from google.cloud import vision
 from google.cloud.vision import types
 import pymysql
-import sys
 
 #Twitter authentication
 consumer_key = "Your consumer key"
@@ -20,7 +19,8 @@ access_token_secret = "Your access token secret"
 #Google authentication
 jsonpath = "Your Google authentication json file's path" #Example: "/Users/user/Desktop/api_proj/92200.json"
 imgpath = 'Your img path' #Example: '/Users/user/Desktop/api_proj/*.jpg'
-    
+objects = ""
+
 def download_img(userid, pagenum):
     # If the page number is too large the api will show warning msg and shut down
     if (pagenum > 50):
