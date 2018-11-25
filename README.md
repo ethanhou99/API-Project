@@ -18,6 +18,9 @@ is typed in the function 'google_recognizer()'. You also need to enter the image
 This API contains three branches: master, ffmepg and googleapi. The final code is in the master branch and the rest branches
 are for the development.
 
+### Database Branch
+On 11/24/2018 the Mysql database function is added to this API.
+
 ## Result
 
 There are some result example under the folder of 'api_proj/photo-vedio/', like:
