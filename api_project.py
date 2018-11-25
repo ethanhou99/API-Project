@@ -5,9 +5,15 @@
 import tweepy
 import wget
 import subprocess
-import os, io
+import io, os, sys
 from google.cloud import vision
 from google.cloud.vision import types
+import PIL
+from PIL import ImageFont
+from PIL import Image
+from PIL import ImageDraw
+import pymysql
+from pymongo import MongoClient
 
 #Twitter authentication
 consumer_key = "Your consumer key"
