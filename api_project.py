@@ -102,7 +102,7 @@ def google_recognizer(jsonpath, imgpath):
                 print(label.description)
             print('\n')
 
-def database(name, twid, pagenum, imgpath, objects):
+def mysql(name, twid, pagenum, imgpath, objects):
     con = pymysql.connect(host='localhost', user='root',
                       passwd='12345678', database='userinfo', charset='utf8')
     print('Connected to database')
@@ -115,6 +115,46 @@ def database(name, twid, pagenum, imgpath, objects):
     print('Backup finished')
     con.close()
 
+def mogodb(name, twid, pagenum, imgpath, objects):
+    conn = MongoClient('localhost',27017)
+    db = conn.USERINFO
+    db.users.insert({"USERNAME":name, 'TWITTER_ID':twid, 'PAGE_NUM':pagenum, 'IMG_PATH': imgpath, 'OBJECTS': objects})
+
+def checkmog():
+    y = "1"
+    while y == "1":
+        print("- Manage my MongoDB\n* Press 1 for specific search\n* Presss 2 for collective results\n* Press any key else to exit")
+        op = input()
+        if op == "1":
+            print("* Please input column(ex. USERNAME)")
+            cl = input()
+            print("* Please input content(ex. Lucy)")
+            ct = input()
+            conn = MongoClient('localhost',27017)
+            db = conn.USERINFO
+            collection = db.users
+            results = collection.find({cl: ct})
+            for result in results:
+                print(result)
+            print("* Press 1 to restart\n* Press any key else to exit")
+            y = input()
+
+        elif op == "2":
+            conn = MongoClient('localhost',27017)
+            db = conn.USERINFO
+            collection = db.users
+            results = collection.find({'PAGE_NUM':{'$gt':0}})
+            i = 0
+            for result in results:
+                pn = result['PAGE_NUM']
+                pn = pn + pn
+                i = i + 1
+            print("- Number of images per feed: ", pn/i)
+            print("* Press 1 to restart\n* Press any key else to exit")
+            y = input()
+        else:
+            break
+            
 def main():
 
     #You can change the page# to decide how many images to download
